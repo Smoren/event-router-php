@@ -8,13 +8,26 @@ use Smoren\EventRouter\Interfaces\EventRouterInterface;
 
 class EventRouter implements EventRouterInterface
 {
+    /**
+     * @var EventRouterMap
+     */
+    protected EventRouterMap $map;
+
+    public function __construct()
+    {
+        $this->map = new EventRouterMap();
+    }
+
     public function on(EventConfigInterface $config, callable $handler): EventRouterInterface
     {
-        // TODO: Implement on() method.
+        $this->map->add($config, $handler);
+        return $this;
     }
 
     public function handle(EventInterface $event): void
     {
-        // TODO: Implement trigger() method.
+        foreach($this->map->get($event) as $handler) {
+            $handler($event);
+        }
     }
 }

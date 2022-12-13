@@ -16,6 +16,10 @@ class EventConfig implements EventConfigInterface
      */
     protected ?string $name;
     /**
+     * @var string[]|null
+     */
+    protected ?array $recipients;
+    /**
      * @var Closure|null
      */
     protected ?Closure $extraFilter;
@@ -23,12 +27,18 @@ class EventConfig implements EventConfigInterface
     /**
      * @param string $origin
      * @param string|null $name
+     * @param string[] $recipients
      * @param callable|null $extraFilter
      */
-    public function __construct(string $origin, ?string $name = null, ?callable $extraFilter = null)
-    {
+    public function __construct(
+        string $origin,
+        ?string $name = null,
+        ?array $recipients = null,
+        ?callable $extraFilter = null
+    ) {
         $this->origin = $origin;
         $this->name = $name;
+        $this->recipients = $recipients;
         $this->extraFilter = $extraFilter;
     }
 
@@ -48,6 +58,17 @@ class EventConfig implements EventConfigInterface
         return $this->name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecipients(): ?array
+    {
+        return $this->recipients;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function extraFilter(): ?callable
     {
         return $this->extraFilter();

@@ -14,15 +14,21 @@ abstract class BaseEvent implements EventInterface
      * @var string
      */
     protected string $name;
+    /**
+     * @var array
+     */
+    protected array $recipients;
 
     /**
      * @param string $origin
      * @param string $name
+     * @param string[] $recipients
      */
-    public function __construct(string $origin, string $name)
+    public function __construct(string $origin, string $name, array $recipients = [])
     {
         $this->origin = $origin;
         $this->name = $name;
+        $this->recipients = $recipients;
     }
 
     /**
@@ -41,11 +47,23 @@ abstract class BaseEvent implements EventInterface
         return $this->name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecipients(): array
+    {
+        return $this->recipients;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray(): array
     {
         return [
-            'origin' => $this->origin,
-            'name' => $this->name,
+            'origin' => $this->getOrigin(),
+            'name' => $this->getName(),
+            'recipients' => $this->getRecipients(),
         ];
     }
 }
