@@ -14,6 +14,12 @@ interface EventRouterInterface
     public function on(EventConfigInterface $config, callable $handler): self;
 
     /**
+     * @param EventRouteRuleInterface $routeRule
+     * @return $this
+     */
+    public function register(EventRouteRuleInterface $routeRule): self;
+
+    /**
      * @param EventInterface $event
      * @return $this
      * @throws EventRouterException

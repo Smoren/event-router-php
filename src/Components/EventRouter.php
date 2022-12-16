@@ -6,6 +6,7 @@ use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\EventRouterInterface;
+use Smoren\EventRouter\Interfaces\EventRouteRuleInterface;
 use Smoren\EventRouter\Interfaces\LoggerInterface;
 use Smoren\EventRouter\Loggers\NonLogger;
 
@@ -42,6 +43,14 @@ class EventRouter implements EventRouterInterface
     {
         $this->map->add($config, $handler);
         return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function register(EventRouteRuleInterface $routeRule): self
+    {
+        return $this->on($routeRule->getConfig(), $routeRule->getHandler());
     }
 
     /**
