@@ -39,7 +39,7 @@ class EventRouter implements EventRouterInterface
     /**
      * {@inheritDoc}
      */
-    public function handle(EventInterface $event): self
+    public function send(EventInterface $event): self
     {
         $this->_handle($event);
         return $this;

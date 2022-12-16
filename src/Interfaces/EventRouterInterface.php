@@ -18,5 +18,5 @@ interface EventRouterInterface
      * @return $this
      * @throws EventRouterException
      */
-    public function handle(EventInterface $event): self;
+    public function send(EventInterface $event): self;
 }

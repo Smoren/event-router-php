@@ -32,17 +32,17 @@ class MainTest extends Unit
                 $logsContainer->append($event->getOrigin(), $event->getName());
             });
 
-        $router->handle(new Event('origin1', 'first'));
+        $router->send(new Event('origin1', 'first'));
         $this->assertEquals(['first'], $logsContainer->get('global'));
         $this->assertEquals(['first'], $logsContainer->get('origin1'));
         $this->assertEquals(null, $logsContainer->get('origin2'));
 
-        $router->handle(new Event('origin1', 'second'));
+        $router->send(new Event('origin1', 'second'));
         $this->assertEquals(['first', 'second'], $logsContainer->get('global'));
         $this->assertEquals(['first', 'second'], $logsContainer->get('origin1'));
         $this->assertEquals(null, $logsContainer->get('origin2'));
 
-        $router->handle(new Event('origin2', 'third'));
+        $router->send(new Event('origin2', 'third'));
         $this->assertEquals(['first', 'second', 'third'], $logsContainer->get('global'));
         $this->assertEquals(['first', 'second'], $logsContainer->get('origin1'));
         $this->assertEquals(['third'], $logsContainer->get('origin2'));
@@ -66,15 +66,15 @@ class MainTest extends Unit
                 $logsContainer->append('test', $event->getName());
             });
 
-        $router->handle(new Event('origin1', 'first'));
+        $router->send(new Event('origin1', 'first'));
         $this->assertEquals(['first'], $logsContainer->get('global'));
         $this->assertEquals(null, $logsContainer->get('test'));
 
-        $router->handle(new Event('origin1', 'second'));
+        $router->send(new Event('origin1', 'second'));
         $this->assertEquals(['first', 'second'], $logsContainer->get('global'));
         $this->assertEquals(null, $logsContainer->get('test'));
 
-        $router->handle(new Event('origin1', 'test'));
+        $router->send(new Event('origin1', 'test'));
         $this->assertEquals(['first', 'second', 'test'], $logsContainer->get('global'));
         $this->assertEquals(['test'], $logsContainer->get('test'));
     }
@@ -108,14 +108,14 @@ class MainTest extends Unit
                 $logsContainer->append('origin2.global', $event->getName());
             });
 
-        $router->handle(new Event('origin1', 'first'));
+        $router->send(new Event('origin1', 'first'));
         $this->assertEquals([
             'origin1' => [
                 'global' => ['first'],
             ],
         ], $logsContainer->get());
 
-        $router->handle(new Event('origin1', 'recursive_single'));
+        $router->send(new Event('origin1', 'recursive_single'));
         $this->assertEquals([
             'origin1' => [
                 'global' => ['first', 'recursive_single'],
@@ -126,7 +126,7 @@ class MainTest extends Unit
             ]
         ], $logsContainer->get());
 
-        $router->handle(new Event('origin1', 'recursive_multiple'));
+        $router->send(new Event('origin1', 'recursive_multiple'));
         $this->assertEquals([
             'origin1' => [
                 'global' => ['first', 'recursive_single', 'recursive_multiple', 'recursive_single'],
@@ -155,13 +155,13 @@ class MainTest extends Unit
                 $flag = true;
             });
 
-        $router->handle(new Event('origin2', 'non_test'));
+        $router->send(new Event('origin2', 'non_test'));
         $this->assertFalse($flag);
 
-        $router->handle(new Event('origin3', 'test'));
+        $router->send(new Event('origin3', 'test'));
         $this->assertFalse($flag);
 
-        $router->handle(new Event('origin2', 'test'));
+        $router->send(new Event('origin2', 'test'));
         $this->assertTrue($flag);
     }
 
@@ -183,7 +183,7 @@ class MainTest extends Unit
             });
 
         try {
-            $router->handle(new Event('origin1', 'main_event'));
+            $router->send(new Event('origin1', 'main_event'));
             $this->fail();
         } catch(EventRouterException $e) {
             $this->assertEquals(3, $e->getData()['max_depth_level_count']);
@@ -192,7 +192,7 @@ class MainTest extends Unit
 
         $log = [];
         try {
-            $router->handle(new Event('origin2', 'main_event'));
+            $router->send(new Event('origin2', 'main_event'));
             $this->fail();
         } catch(EventRouterException $e) {
             $this->assertEquals(3, $e->getData()['max_depth_level_count']);
@@ -218,7 +218,7 @@ class MainTest extends Unit
             });
 
         try {
-            $router->handle(new Event('origin1', 'main_event'));
+            $router->send(new Event('origin1', 'main_event'));
             $this->fail();
         } catch(EventRouterException $e) {
             $this->assertEquals(5, $e->getData()['max_depth_level_count']);
