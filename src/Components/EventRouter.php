@@ -27,7 +27,17 @@ class EventRouter implements EventRouterInterface
     public function handle(EventInterface $event): void
     {
         foreach($this->map->get($event) as $handler) {
-            $handler($event);
+            $result = $handler($event);
+
+            if($result instanceof EventInterface) {
+                $this->handle($result);
+            } elseif(is_array($result)) {
+                foreach($result as $item) {
+                    if($item instanceof EventInterface) {
+                        $this->handle($item);
+                    }
+                }
+            }
         }
     }
 }
