@@ -19,4 +19,9 @@ interface EventRouterInterface
      * @throws EventRouterException
      */
     public function send(EventInterface $event): self;
+
+    /**
+     * @return EventInterface[]
+     */
+    public function getLog(): array;
 }

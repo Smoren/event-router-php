@@ -6,6 +6,8 @@ use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\EventRouterInterface;
+use Smoren\EventRouter\Interfaces\LoggerInterface;
+use Smoren\EventRouter\Loggers\NonLogger;
 
 class EventRouter implements EventRouterInterface
 {
@@ -17,14 +19,20 @@ class EventRouter implements EventRouterInterface
      * @var int|null
      */
     protected ?int $maxDepthLevelCount;
+    /**
+     * @var LoggerInterface
+     */
+    protected LoggerInterface $logger;
 
     /**
      * @param int|null $maxDepthLevelCount
+     * @param LoggerInterface|null $logger
      */
-    public function __construct(?int $maxDepthLevelCount)
+    public function __construct(?int $maxDepthLevelCount, ?LoggerInterface $logger = null)
     {
         $this->maxDepthLevelCount = $maxDepthLevelCount;
         $this->map = new EventRouterMap();
+        $this->logger = $logger ?? new NonLogger();
     }
 
     /**
@@ -46,6 +54,14 @@ class EventRouter implements EventRouterInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public function getLog(): array
+    {
+        return $this->logger->getLog();
+    }
+
+    /**
      * @param EventInterface $event
      * @param int $depthLevelCount
      * @return void
@@ -62,13 +78,11 @@ class EventRouter implements EventRouterInterface
             );
         }
 
-        $subEvents = [];
-
         foreach($this->map->get($event) as $handler) {
             $result = $handler($event);
+            $this->logger->append($event);
 
             if($result instanceof EventInterface) {
-                $subEvents[] = $result;
                 $this->_handle($result, ++$depthLevelCount);
             } elseif(is_array($result)) {
                 foreach($result as $item) {
