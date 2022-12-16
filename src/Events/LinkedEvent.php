@@ -2,10 +2,26 @@
 
 namespace Smoren\EventRouter\Events;
 
+use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\EventLinkInterface;
 
-class LinkedEvent extends BaseEvent
+class LinkedEvent implements EventInterface
 {
+    /**
+     * @var string
+     */
+    protected string $origin;
+    /**
+     * @var string
+     */
+    protected string $name;
+    /**
+     * @var array
+     */
+    protected array $recipients;
+    /**
+     * @var EventLinkInterface
+     */
     protected EventLinkInterface $link;
 
     /**
@@ -16,8 +32,34 @@ class LinkedEvent extends BaseEvent
      */
     public function __construct(string $origin, string $name, EventLinkInterface $link, array $recipients = [])
     {
-        parent::__construct($origin, $name, $recipients);
+        $this->origin = $origin;
+        $this->name = $name;
+        $this->recipients = $recipients;
         $this->link = $link;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOrigin(): string
+    {
+        return $this->origin;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getRecipients(): array
+    {
+        return $this->recipients;
     }
 
     /**
@@ -31,11 +73,21 @@ class LinkedEvent extends BaseEvent
     /**
      * {@inheritDoc}
      */
+    public function getLink(): EventLinkInterface
+    {
+        return $this->link;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function toArray(): array
     {
-        $result = parent::toArray();
-        $result['data'] = $this->getData();
-
-        return $result;
+        return [
+            'origin' => $this->getOrigin(),
+            'name' => $this->getName(),
+            'recipients' => $this->getRecipients(),
+            'data' => $this->getData(),
+        ];
     }
 }

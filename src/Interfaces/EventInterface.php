@@ -15,14 +15,19 @@ interface EventInterface
     public function getName(): string;
 
     /**
+     * @return string[]
+     */
+    public function getRecipients(): array;
+
+    /**
      * @return array
      */
     public function getData(): array;
 
     /**
-     * @return string[]
+     * @return EventLinkInterface
      */
-    public function getRecipients(): array;
+    public function getLink(): EventLinkInterface;
 
     /**
      * @return array

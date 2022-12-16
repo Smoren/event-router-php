@@ -2,13 +2,10 @@
 
 namespace Smoren\EventRouter\Events;
 
-class Event extends BaseEvent
-{
-    /**
-     * @var array
-     */
-    protected array $data;
+use Smoren\EventRouter\Links\ArrayEventLink;
 
+class Event extends LinkedEvent
+{
     /**
      * @param string $origin
      * @param string $name
@@ -17,26 +14,6 @@ class Event extends BaseEvent
      */
     public function __construct(string $origin, string $name, array $data = [], array $recipients = [])
     {
-        parent::__construct($origin, $name, $recipients);
-        $this->data = $data;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getData(): array
-    {
-        return $this->data;
-    }
-
-    /**
-     * {@return array}
-     */
-    public function toArray(): array
-    {
-        $result = parent::toArray();
-        $result['data'] = $this->getData();
-
-        return $result;
+        parent::__construct($origin, $name, new ArrayEventLink($data), $recipients);
     }
 }
