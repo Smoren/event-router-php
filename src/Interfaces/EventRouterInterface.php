@@ -2,9 +2,21 @@
 
 namespace Smoren\EventRouter\Interfaces;
 
+use Smoren\EventRouter\Exceptions\EventRouterException;
+
 interface EventRouterInterface
 {
+    /**
+     * @param EventConfigInterface $config
+     * @param callable $handler
+     * @return $this
+     */
     public function on(EventConfigInterface $config, callable $handler): self;
 
-    public function handle(EventInterface $event): void;
+    /**
+     * @param EventInterface $event
+     * @return $this
+     * @throws EventRouterException
+     */
+    public function handle(EventInterface $event): self;
 }

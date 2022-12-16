@@ -44,7 +44,7 @@ class EventRouterMap
     {
         $handlers = [];
 
-        foreach($this->originMap[$event->getOrigin()] as [$config, $handler]) {
+        foreach($this->originMap[$event->getOrigin()] ?? [] as [$config, $handler]) {
             if($this->hasRecipientsIntersection($config, $event)) {
                 $handlers[] = $handler;
             }

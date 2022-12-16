@@ -2,6 +2,7 @@
 
 namespace Smoren\EventRouter\Components;
 
+use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\EventRouterInterface;
@@ -12,29 +13,67 @@ class EventRouter implements EventRouterInterface
      * @var EventRouterMap
      */
     protected EventRouterMap $map;
+    /**
+     * @var int|null
+     */
+    protected ?int $maxDepthLevelCount;
 
-    public function __construct()
+    /**
+     * @param int|null $maxDepthLevelCount
+     */
+    public function __construct(?int $maxDepthLevelCount)
     {
+        $this->maxDepthLevelCount = $maxDepthLevelCount;
         $this->map = new EventRouterMap();
     }
 
-    public function on(EventConfigInterface $config, callable $handler): EventRouterInterface
+    /**
+     * {@inheritDoc}
+     */
+    public function on(EventConfigInterface $config, callable $handler): self
     {
         $this->map->add($config, $handler);
         return $this;
     }
 
-    public function handle(EventInterface $event): void
+    /**
+     * {@inheritDoc}
+     */
+    public function handle(EventInterface $event): self
     {
+        $this->_handle($event);
+        return $this;
+    }
+
+    /**
+     * @param EventInterface $event
+     * @param int $depthLevelCount
+     * @return void
+     * @throws EventRouterException
+     */
+    protected function _handle(EventInterface $event, int $depthLevelCount = 0)
+    {
+        if($this->maxDepthLevelCount !== null && $depthLevelCount >= $this->maxDepthLevelCount) {
+            throw new EventRouterException(
+                'max depth level reached',
+                EventRouterException::MAX_DEPTH_LEVEL_REACHED,
+                null,
+                ['max_depth_level_count' => $this->maxDepthLevelCount]
+            );
+        }
+
+        $subEvents = [];
+
         foreach($this->map->get($event) as $handler) {
             $result = $handler($event);
 
             if($result instanceof EventInterface) {
-                $this->handle($result);
+                $subEvents[] = $result;
+                $this->_handle($result, ++$depthLevelCount);
             } elseif(is_array($result)) {
                 foreach($result as $item) {
                     if($item instanceof EventInterface) {
-                        $this->handle($item);
+                        $this->_handle($item, ++$depthLevelCount);
                     }
                 }
             }
