@@ -1,6 +1,6 @@
 <?php
 
-namespace Smoren\EventRouter\components;
+namespace Smoren\EventRouter\Components;
 
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventInterface;
