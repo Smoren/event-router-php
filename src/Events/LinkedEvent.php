@@ -34,7 +34,7 @@ class LinkedEvent implements EventInterface
     {
         $this->origin = $origin;
         $this->name = $name;
-        $this->recipients = $recipients;
+        $this->recipients = array_values($recipients);
         $this->link = $link;
     }
 
