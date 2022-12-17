@@ -5,7 +5,7 @@ namespace Smoren\EventRouter\Loggers;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\LoggerInterface;
 
-class NonLogger implements LoggerInterface
+class FakeLogger implements LoggerInterface
 {
     public function append(EventInterface $event): void
     {

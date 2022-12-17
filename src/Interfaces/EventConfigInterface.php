@@ -22,5 +22,5 @@ interface EventConfigInterface
     /**
      * @return callable|null
      */
-    public function extraFilter(): ?callable;
+    public function getExtraFilter(): ?callable;
 }

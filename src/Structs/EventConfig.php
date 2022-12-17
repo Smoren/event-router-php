@@ -20,9 +20,9 @@ class EventConfig implements EventConfigInterface
      */
     protected ?array $recipients;
     /**
-     * @var Closure|null
+     * @var callable|null
      */
-    protected ?Closure $extraFilter;
+    protected $extraFilter;
 
     /**
      * @param string $origin
@@ -69,8 +69,8 @@ class EventConfig implements EventConfigInterface
     /**
      * {@inheritDoc}
      */
-    public function extraFilter(): ?callable
+    public function getExtraFilter(): ?callable
     {
-        return $this->extraFilter();
+        return $this->extraFilter;
     }
 }

@@ -30,7 +30,7 @@ class ArrayEventLink implements EventLinkInterface
     /**
      * {@inheritDoc}
      */
-    public function getClassName(): string
+    public function getType(): string
     {
         return 'array';
     }

@@ -16,6 +16,11 @@ class EventRouterMap
      */
     protected array $originNameMap = [];
 
+    /**
+     * @param EventConfigInterface $config
+     * @param callable $handler
+     * @return void
+     */
     public function add(EventConfigInterface $config, callable $handler): void
     {
         [$origin, $name] = [$config->getOrigin(), $config->getName()];
@@ -44,16 +49,28 @@ class EventRouterMap
     {
         $handlers = [];
 
+        /**
+         * @var EventConfigInterface $config
+         * @var callable $handler
+         */
         foreach($this->originMap[$event->getOrigin()] ?? [] as [$config, $handler]) {
-            if($this->hasRecipientsIntersection($config, $event)) {
-                $handlers[] = $handler;
+            if(!$this->hasRecipientsIntersection($config, $event)) {
+                continue;
             }
+            if(!$this->applyExtraFilter($config, $event)) {
+                continue;
+            }
+            $handlers[] = $handler;
         }
 
         foreach($this->originNameMap[$event->getOrigin()][$event->getName()] ?? [] as [$config, $handler]) {
-            if($this->hasRecipientsIntersection($config, $event)) {
-                $handlers[] = $handler;
+            if(!$this->hasRecipientsIntersection($config, $event)) {
+                continue;
             }
+            if(!$this->applyExtraFilter($config, $event)) {
+                continue;
+            }
+            $handlers[] = $handler;
         }
 
         return $handlers;
@@ -70,5 +87,10 @@ class EventRouterMap
         $recipients = $event->getRecipients();
 
         return (bool)count(array_intersect($candidates, $recipients));
+    }
+
+    protected function applyExtraFilter(EventConfigInterface $config, EventInterface $event): bool
+    {
+        return ($filter = $config->getExtraFilter()) === null || $filter($event);
     }
 }

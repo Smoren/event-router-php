@@ -12,7 +12,7 @@ interface EventLinkInterface
     /**
      * @return string
      */
-    public function getClassName(): string;
+    public function getType(): string;
 
     /**
      * @return array
