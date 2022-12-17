@@ -4,29 +4,36 @@ namespace Smoren\EventRouter\Interfaces;
 
 use Smoren\EventRouter\Exceptions\EventRouterException;
 
+/**
+ * Interface for event router
+ */
 interface EventRouterInterface
 {
     /**
-     * @param EventConfigInterface $config
-     * @param callable $handler
+     * Registers event routing rule
+     * @param EventConfigInterface $config route condition
+     * @param callable $handler event handler
      * @return $this
      */
     public function on(EventConfigInterface $config, callable $handler): self;
 
     /**
-     * @param EventRouteRuleInterface $routeRule
+     * Registers event routing rule
+     * @param EventRouteRuleInterface $routeRule routing rule
      * @return $this
      */
     public function register(EventRouteRuleInterface $routeRule): self;
 
     /**
-     * @param EventInterface $event
+     * Sends event to router
+     * @param EventInterface $event event
      * @return $this
-     * @throws EventRouterException
+     * @throws EventRouterException if recursion limit exceeded
      */
     public function send(EventInterface $event): self;
 
     /**
+     * Getter for handling log
      * @return EventInterface[]
      */
     public function getLog(): array;

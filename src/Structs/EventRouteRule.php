@@ -5,18 +5,22 @@ namespace Smoren\EventRouter\Structs;
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventRouteRuleInterface;
 
+/**
+ * EventRouteRule class
+ */
 class EventRouteRule implements EventRouteRuleInterface
 {
     /**
-     * @var EventConfigInterface
+     * @var EventConfigInterface event route condition
      */
     protected EventConfigInterface $config;
     /**
-     * @var callable
+     * @var callable event handler
      */
     protected $handler;
 
     /**
+     * EventRouteRule constructor
      * @param EventConfigInterface $config
      * @param callable $handler
      */

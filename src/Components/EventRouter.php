@@ -10,22 +10,26 @@ use Smoren\EventRouter\Interfaces\LoggerInterface;
 use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Loggers\FakeLogger;
 
+/**
+ * Event router
+ */
 class EventRouter implements EventRouterInterface
 {
     /**
-     * @var EventRouterMap
+     * @var EventRouterMap map for storing event route rules
      */
     protected EventRouterMap $map;
     /**
-     * @var int|null
+     * @var int|null max recursion level of handling events
      */
     protected ?int $maxDepthLevelCount;
     /**
-     * @var LoggerInterface
+     * @var LoggerInterface logger
      */
     protected LoggerInterface $logger;
 
     /**
+     * EventRouter constructor
      * @param int|null $maxDepthLevelCount
      * @param LoggerInterface|null $logger
      */
@@ -71,8 +75,9 @@ class EventRouter implements EventRouterInterface
     }
 
     /**
-     * @param EventInterface $event
-     * @param int $depthLevelCount
+     * Internal method for recursive event handling
+     * @param EventInterface $event event to handle
+     * @param int $depthLevelCount current recursion level
      * @return void
      * @throws EventRouterException
      */

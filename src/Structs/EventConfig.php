@@ -3,28 +3,31 @@
 namespace Smoren\EventRouter\Structs;
 
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
-use Closure;
 
+/**
+ * EventConfig class
+ */
 class EventConfig implements EventConfigInterface
 {
     /**
-     * @var string
+     * @var string event origin
      */
     protected string $origin;
     /**
-     * @var string|null
+     * @var string|null event name
      */
     protected ?string $name;
     /**
-     * @var string[]|null
+     * @var string[]|null event recipients
      */
     protected ?array $recipients;
     /**
-     * @var callable|null
+     * @var callable|null extra filter
      */
     protected $extraFilter;
 
     /**
+     * EventConfig constructor
      * @param string $origin
      * @param string|null $name
      * @param string[] $recipients

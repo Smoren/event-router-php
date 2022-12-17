@@ -5,10 +5,13 @@ namespace Smoren\EventRouter\Loggers;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\LoggerInterface;
 
+/**
+ * ArrayLogger class
+ */
 class ArrayLogger implements LoggerInterface
 {
     /**
-     * @var EventInterface[]
+     * @var EventInterface[] events log
      */
     protected array $log = [];
 

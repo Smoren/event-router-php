@@ -5,26 +5,30 @@ namespace Smoren\EventRouter\Events;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\EventLinkInterface;
 
+/**
+ * LinkedEvent class
+ */
 class LinkedEvent implements EventInterface
 {
     /**
-     * @var string
+     * @var string origin
      */
     protected string $origin;
     /**
-     * @var string
+     * @var string name
      */
     protected string $name;
     /**
-     * @var array<mixed>
+     * @var array<mixed> recipients
      */
     protected array $recipients;
     /**
-     * @var EventLinkInterface
+     * @var EventLinkInterface link
      */
     protected EventLinkInterface $link;
 
     /**
+     * LinkedEvent constructor
      * @param string $origin
      * @param string $name
      * @param EventLinkInterface $link

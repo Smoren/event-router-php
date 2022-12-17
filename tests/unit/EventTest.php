@@ -7,6 +7,9 @@ use Smoren\EventRouter\Events\Event;
 
 class EventTest extends Unit
 {
+    /**
+     * @return void
+     */
     public function testEvent()
     {
         $event = new Event('test', 'name', ['a' => 1], [1, 2, 3]);

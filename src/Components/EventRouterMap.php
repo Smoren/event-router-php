@@ -5,18 +5,24 @@ namespace Smoren\EventRouter\Components;
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventInterface;
 
+/**
+ * Map for storing event route rules
+ */
 class EventRouterMap
 {
     /**
      * @var array<string, array<array{EventConfigInterface, callable}>>
+     * [origin => [[config, handler], ...], ...]
      */
     protected array $originMap = [];
     /**
      * @var array<string, array<string, array<array{EventConfigInterface, callable}>>>
+     * [origin => [name => [[config, handler], ...], ...], ...]
      */
     protected array $originNameMap = [];
 
     /**
+     * Adds new event router rule to map
      * @param EventConfigInterface $config
      * @param callable $handler
      * @return void
@@ -42,6 +48,7 @@ class EventRouterMap
     }
 
     /**
+     * Returns suitable handlers from map for event
      * @param EventInterface $event
      * @return callable[]
      */
@@ -76,6 +83,12 @@ class EventRouterMap
         return $handlers;
     }
 
+    /**
+     * Returns true if config condition and event have intersection by recipients
+     * @param EventConfigInterface $config route config condition
+     * @param EventInterface $event event
+     * @return bool
+     */
     protected function hasRecipientsIntersection(EventConfigInterface $config, EventInterface $event): bool
     {
         $candidates = $config->getRecipients();
@@ -89,6 +102,12 @@ class EventRouterMap
         return (bool)count(array_intersect($candidates, $recipients));
     }
 
+    /**
+     * Returns result of extra filter call for event
+     * @param EventConfigInterface $config route config condition
+     * @param EventInterface $event event
+     * @return bool
+     */
     protected function applyExtraFilter(EventConfigInterface $config, EventInterface $event): bool
     {
         return ($filter = $config->getExtraFilter()) === null || $filter($event);

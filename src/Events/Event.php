@@ -4,9 +4,13 @@ namespace Smoren\EventRouter\Events;
 
 use Smoren\EventRouter\Links\ArrayEventLink;
 
+/**
+ * Event class
+ */
 class Event extends LinkedEvent
 {
     /**
+     * Event constructor
      * @param string $origin
      * @param string $name
      * @param array<mixed> $data

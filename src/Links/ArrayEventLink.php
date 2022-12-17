@@ -4,14 +4,18 @@ namespace Smoren\EventRouter\Links;
 
 use Smoren\EventRouter\Interfaces\EventLinkInterface;
 
+/**
+ * ArrayEventLink class
+ */
 class ArrayEventLink implements EventLinkInterface
 {
     /**
-     * @var array<mixed>
+     * @var array<mixed> linked array
      */
     protected array $data;
 
     /**
+     * ArrayEventLink constructor
      * @param array<mixed> $data
      */
     public function __construct(array $data)
