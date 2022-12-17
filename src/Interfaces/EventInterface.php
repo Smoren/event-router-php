@@ -15,12 +15,12 @@ interface EventInterface
     public function getName(): string;
 
     /**
-     * @return string[]
+     * @return array<mixed>
      */
     public function getRecipients(): array;
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getData(): array;
 
@@ -30,7 +30,7 @@ interface EventInterface
     public function getLink(): EventLinkInterface;
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function toArray(): array;
 }

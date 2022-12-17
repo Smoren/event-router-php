@@ -16,7 +16,7 @@ class LinkedEvent implements EventInterface
      */
     protected string $name;
     /**
-     * @var array
+     * @var array<mixed>
      */
     protected array $recipients;
     /**

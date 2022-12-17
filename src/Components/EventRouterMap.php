@@ -8,11 +8,11 @@ use Smoren\EventRouter\Interfaces\EventInterface;
 class EventRouterMap
 {
     /**
-     * @var array<string, array{EventConfigInterface, callable}>
+     * @var array<string, array<array{EventConfigInterface, callable}>>
      */
     protected array $originMap = [];
     /**
-     * @var array<string, array<string, array{EventConfigInterface, callable}>>
+     * @var array<string, array<string, array<array{EventConfigInterface, callable}>>>
      */
     protected array $originNameMap = [];
 

@@ -5,7 +5,7 @@ namespace Smoren\EventRouter\Interfaces;
 interface EventLinkInterface
 {
     /**
-     * @return string|int
+     * @return string
      */
     public function getId(): string;
 
@@ -15,7 +15,7 @@ interface EventLinkInterface
     public function getType(): string;
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getData(): array;
 }

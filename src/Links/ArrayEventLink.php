@@ -7,12 +7,12 @@ use Smoren\EventRouter\Interfaces\EventLinkInterface;
 class ArrayEventLink implements EventLinkInterface
 {
     /**
-     * @var array
+     * @var array<mixed>
      */
     protected array $data;
 
     /**
-     * {@inheritDoc}
+     * @param array<mixed> $data
      */
     public function __construct(array $data)
     {

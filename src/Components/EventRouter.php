@@ -2,12 +2,12 @@
 
 namespace Smoren\EventRouter\Components;
 
-use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Interfaces\EventConfigInterface;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Interfaces\EventRouterInterface;
 use Smoren\EventRouter\Interfaces\EventRouteRuleInterface;
 use Smoren\EventRouter\Interfaces\LoggerInterface;
+use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Loggers\FakeLogger;
 
 class EventRouter implements EventRouterInterface

@@ -9,7 +9,7 @@ class Event extends LinkedEvent
     /**
      * @param string $origin
      * @param string $name
-     * @param array $data
+     * @param array<mixed> $data
      * @param string[] $recipients
      */
     public function __construct(string $origin, string $name, array $data = [], array $recipients = [])
