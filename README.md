@@ -32,7 +32,7 @@ use Smoren\EventRouter\Loggers\ArrayLogger;
 
 $router = new EventRouter(10, new ArrayLogger());
 $router
-    ->on(new EventConfig('origin1', null), function(EventInterface $event) {
+    ->on(new EventConfig('origin1'), function(EventInterface $event) {
         return null;
     })
     ->on(new EventConfig('origin1', 'recursive_single'), function(EventInterface $event) {
@@ -44,7 +44,7 @@ $router
             new Event('origin2', 'test'),
         ];
     })
-    ->on(new EventConfig('origin2', null), function(EventInterface $event) use ($logsContainer) {
+    ->on(new EventConfig('origin2'), function(EventInterface $event) {
         return null;
     });
 
