@@ -1,6 +1,6 @@
 {
   "name": "smoren/event-router",
-  "description": "Accessor for getting and setting values of nested data structures (arrays or objects)",
+  "description": "Router for flexible configuring of event handling behaviors",
   "keywords": ["nested", "accessor"],
   "license": "MIT",
   "authors": [

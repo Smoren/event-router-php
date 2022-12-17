@@ -6,7 +6,7 @@
 ![Build and test](https://github.com/Smoren/event-router-php/actions/workflows/test_master.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Eouter for flexible configuring of event handling behaviors;.
+Router for flexible configuring of event handling behaviors.
 
 ### How to install to your project
 ```
