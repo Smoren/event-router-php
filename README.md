@@ -31,13 +31,13 @@ use Smoren\EventRouter\Structs\EventConfig;
 
 $router = new EventRouter(10);
 $router
-    ->on(new EventConfig('origin1', null), function(EventInterface $event) use ($logsContainer) {
+    ->on(new EventConfig('origin1', null), function(EventInterface $event) {
         return null;
     })
-    ->on(new EventConfig('origin1', 'recursive_single'), function(EventInterface $event) use ($logsContainer) {
+    ->on(new EventConfig('origin1', 'recursive_single'), function(EventInterface $event) {
         return new Event('origin2', 'test');
     })
-    ->on(new EventConfig('origin1', 'recursive_multiple'), function(EventInterface $event) use ($logsContainer) {
+    ->on(new EventConfig('origin1', 'recursive_multiple'), function(EventInterface $event) {
         return [
             new Event('origin1', 'recursive_single'),
             new Event('origin2', 'test'),
