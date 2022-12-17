@@ -8,6 +8,7 @@ use Smoren\EventRouter\Events\Event;
 use Smoren\EventRouter\Exceptions\EventRouterException;
 use Smoren\EventRouter\Interfaces\EventInterface;
 use Smoren\EventRouter\Loggers\ArrayLogger;
+use Smoren\EventRouter\Loggers\FakeLogger;
 use Smoren\EventRouter\Structs\EventConfig;
 use Smoren\EventRouter\Structs\EventRouteRule;
 use Smoren\NestedAccessor\Factories\SilentNestedAccessorFactory;
@@ -23,7 +24,7 @@ class EventRouterTest extends Unit
         $data = [];
         $logsContainer = SilentNestedAccessorFactory::fromArray($data);
 
-        $router = new EventRouter(10);
+        $router = new EventRouter(10, new ArrayLogger());
         $router
             ->on(new EventConfig('origin1', null), function(EventInterface $event) use ($logsContainer) {
                 $logsContainer->append('global', $event->getName());
@@ -75,7 +76,7 @@ class EventRouterTest extends Unit
             }
         );
 
-        $router = new EventRouter(10);
+        $router = new EventRouter(10, new ArrayLogger());
         $router
             ->register($rule1)
             ->register($rule2);
@@ -105,7 +106,7 @@ class EventRouterTest extends Unit
         $data = [];
         $logsContainer = SilentNestedAccessorFactory::fromArray($data);
 
-        $router = new EventRouter(10);
+        $router = new EventRouter(10, new ArrayLogger());
         $router
             ->on(new EventConfig('origin1', null), function(EventInterface $event) use ($logsContainer) {
                 $logsContainer->append('global', $event->getName());
@@ -136,7 +137,7 @@ class EventRouterTest extends Unit
         $data = [];
         $logsContainer = SilentNestedAccessorFactory::fromArray($data);
 
-        $router = new EventRouter(10);
+        $router = new EventRouter(10, new ArrayLogger());
         $router
             ->on(new EventConfig('origin1', null), function(EventInterface $event) use ($logsContainer) {
                 $logsContainer->append("origin1.global", $event->getName());
@@ -194,7 +195,7 @@ class EventRouterTest extends Unit
     {
         $flag = false;
 
-        $router = new EventRouter(10);
+        $router = new EventRouter(10, new ArrayLogger());
         $router
             ->on(new EventConfig('origin1', null), function(EventInterface $event) use (&$flag) {
                 $flag = true;
@@ -219,7 +220,7 @@ class EventRouterTest extends Unit
     public function testSimpleLoop()
     {
         $log = [];
-        $router = new EventRouter(3);
+        $router = new EventRouter(3, new ArrayLogger());
         $router
             ->on(new EventConfig('origin1', null), function(EventInterface $event) use (&$log) {
                 $log[] = $event->getName();
@@ -257,7 +258,7 @@ class EventRouterTest extends Unit
     public function testComplicatedLoop()
     {
         $log = [];
-        $router = new EventRouter(5);
+        $router = new EventRouter(5, new ArrayLogger());
         $router
             ->on(new EventConfig('origin1', null), function(EventInterface $event) use (&$log) {
                 $log[] = $event->getName();
@@ -419,7 +420,7 @@ class EventRouterTest extends Unit
      */
     public function testFakeLogger()
     {
-        $router = new EventRouter(10);
+        $router = new EventRouter(10, new FakeLogger());
         $router->on(
             new EventConfig('origin1', null),
             function() {

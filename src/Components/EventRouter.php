@@ -8,7 +8,6 @@ use Smoren\EventRouter\Interfaces\EventRouterInterface;
 use Smoren\EventRouter\Interfaces\EventRouteRuleInterface;
 use Smoren\EventRouter\Interfaces\LoggerInterface;
 use Smoren\EventRouter\Exceptions\EventRouterException;
-use Smoren\EventRouter\Loggers\FakeLogger;
 
 /**
  * Event router
@@ -31,13 +30,13 @@ class EventRouter implements EventRouterInterface
     /**
      * EventRouter constructor
      * @param int|null $maxDepthLevelCount
-     * @param LoggerInterface|null $logger
+     * @param LoggerInterface $logger
      */
-    public function __construct(?int $maxDepthLevelCount, ?LoggerInterface $logger = null)
+    public function __construct(?int $maxDepthLevelCount, LoggerInterface $logger)
     {
         $this->maxDepthLevelCount = $maxDepthLevelCount;
         $this->map = new EventRouterMap();
-        $this->logger = $logger ?? new FakeLogger();
+        $this->logger = $logger;
     }
 
     /**
