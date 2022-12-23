@@ -5,7 +5,7 @@ on:
     inputs:
       composer-command:
         description: Composer command to run.
-        default: composer config --no-plugins allow-plugins.infection/extension-installer && composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+        default: composer config --no-plugins allow-plugins.infection/extension-installer true && composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
         required: false
         type: string
       extensions:
